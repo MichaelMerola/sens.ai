@@ -108,7 +108,7 @@ input[type="url"]:focus {
 }
 
 .SyllabusThumb h3,
-.SyllabusThumb p { 
+.SyllabusThumb p {
   display: inline-block;
 }
 
@@ -131,6 +131,12 @@ input[type="url"]:focus {
 .NewSyllabus input {
   width:60%;
   max-width: 600px;
+}
+
+.articleFormat {
+    margin-top: 40px;
+    margin-left: 75px;
+    margin-right: 75px;
 }
 
 .progress {
