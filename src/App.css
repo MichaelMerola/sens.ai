@@ -141,9 +141,13 @@ input[type="url"]:focus {
   display: inline-block;
   vertical-align: middle;
   margin-left: 50px;
+  padding-right: 5px;
 }
 
 .bar {
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
   height: calc(100% - 4px);
   background: #17AB49;
   border-radius: 10px;
@@ -205,3 +209,32 @@ input[type="url"]:focus {
 .AddUnit .btn.done {
   margin-top: 50px;
 }
+
+[type="checkbox"] {
+  -webkit-appearance: none;
+  outline: 1px solid #17AB49;
+  vertical-align: middle;
+  margin-left: 20px;
+  height: 20px;
+  width: 20px;
+}
+
+[type="checkbox"]:after {
+  transition: .5s;
+  -webkit-transition: .5s;
+  -moz-transition: .5s;
+  color: rgba(0,0,0,0);
+}
+
+[type="checkbox"]:checked:after {
+  transition: .5s;
+  -webkit-transition: .5s;
+  content: '\25A0';
+  color: #17AB49;
+  font-size: 1.9em;
+  position: relative;
+  top: -3px;
+  right: -1.2px;
+}
+
+

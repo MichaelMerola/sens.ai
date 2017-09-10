@@ -17,6 +17,7 @@ class Syllabus extends Component {
     };
 
     this.getSyllabus = this.getSyllabus.bind(this);
+    this.toggleCompletion = this.toggleCompletion.bind(this);
   }
 
   componentWillMount() {
@@ -27,6 +28,22 @@ class Syllabus extends Component {
     this.setState({
       syllabus: this.props.route.store.getItemsByProperty('name', atob(this.props.params.id))[0]
     });
+  }
+
+  toggleCompletion(unitToToggle) {
+    const syllabus = this.state.syllabus;
+    let indexToModify;
+
+    syllabus.units.forEach((unit,index) => {
+      if (unit.title === unitToToggle) {
+        indexToModify = index;
+      }
+    });
+
+    syllabus.units[indexToModify].complete = !syllabus.units[indexToModify].complete;
+    console.log(syllabus);
+    this.props.route.store.setItemByProperty('name', atob(this.props.params.id), syllabus);
+    this.getSyllabus();    
   }
 
   render() {
@@ -44,7 +61,15 @@ class Syllabus extends Component {
         {
           this.state.syllabus.units.map(unit => {
             return (<li>
-              <h2>{unit.title}</h2>
+              <h2>
+                <span>{unit.title}</span>
+                <input
+                  type="checkbox"
+                  checked={unit.complete ? 'checked' : false}
+                  data-title={unit.title}
+                  onChange={e => { this.toggleCompletion(e.target.dataset.title) }}
+                />
+              </h2>
               <ul className="resources"> 
                 {
                   unit.resources.map(a => {

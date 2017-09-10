@@ -5,7 +5,7 @@ import './App.css';
 export default function ProgressBar(props) {
   const percentage = (() => {
     const completed = props.units.filter(unit => {
-      return unit.isComplete;
+      return unit.complete;
     }).length;
     if (completed === 0) return 5;
     return (completed/props.units.length)*100;
