@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import superagent from 'superagent'
 
 import SyllabusThumb from './SyllabusThumb';
 
@@ -12,16 +13,21 @@ class TelegraphViewer extends Component {
       syllabus: null,
       article: '' // you need to update this using React to have the content
     }
-    
+
     // doing a POST request to http://telegraphapi.herokuapp.com with { link: the telegra.ph url }
     // will give you a useful JSON object. superagent is a useful library available to you here,
     // google the docs
-    
+
     this.getSyllabus = this.getSyllabus.bind(this);
+
+
+    this.url = `http://telegra.ph/${this.props.params.slug}`
+
   }
 
   componentWillMount() {
     this.getSyllabus();
+    this.apiRequest();
   }
 
   getSyllabus() {
@@ -30,11 +36,22 @@ class TelegraphViewer extends Component {
     });
   }
 
+  apiRequest() {
+      superagent.post('http://telegraphapi.herokuapp.com')
+        .send({link:this.url})
+        .end((error, ass)=>{
+            this.setState({
+                article: ass.body.content
+            })
+        });
+  }
+
+
   render() {
     return (
       <div className="TelegraphViewer main">
         {
-          this.state.syllabus && 
+          this.state.syllabus &&
             <SyllabusThumb
               name={this.state.syllabus.name}
               units={this.state.syllabus.units}
@@ -43,8 +60,8 @@ class TelegraphViewer extends Component {
         }
         {
           this.state.article &&
-          <span />
           // somehow display the article HTML
+          <div className='articleFormat' dangerouslySetInnerHTML={{__html:this.state.article}}/>
         }
       </div>
     );
