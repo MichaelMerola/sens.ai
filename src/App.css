@@ -134,10 +134,10 @@ input[type="url"]:focus {
 }
 
 .articleFormat {
-    margin-top: 40px;
-    margin-left: 75px;
-    margin-right: 75px;
-}
+    width: 55%;
+    margin: 10px auto;
+    font-size: 1.2em;
+  }
 
 .progress {
   width: 50%;
@@ -243,4 +243,7 @@ input[type="url"]:focus {
   right: -1.2px;
 }
 
+.dropzone {
+  margin: 40px auto;
+}
 

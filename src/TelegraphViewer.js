@@ -41,7 +41,7 @@ class TelegraphViewer extends Component {
         .send({link:this.url})
         .end((error, ass)=>{
             this.setState({
-                article: ass.body.content
+                article: ass.body
             })
         });
   }
@@ -61,7 +61,10 @@ class TelegraphViewer extends Component {
         {
           this.state.article &&
           // somehow display the article HTML
-          <div className='articleFormat' dangerouslySetInnerHTML={{__html:this.state.article}}/>
+          <div className='articleFormat fadeIn' >
+            <h3>{this.state.article.title}</h3>
+            <div dangerouslySetInnerHTML={{__html:this.state.article.content}}/>
+          </div>
         }
       </div>
     );

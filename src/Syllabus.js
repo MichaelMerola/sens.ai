@@ -18,6 +18,7 @@ class Syllabus extends Component {
 
     this.getSyllabus = this.getSyllabus.bind(this);
     this.toggleCompletion = this.toggleCompletion.bind(this);
+    this.genDownloadURI = this.genDownloadURI.bind(this);
   }
 
   componentWillMount() {
@@ -44,6 +45,10 @@ class Syllabus extends Component {
     console.log(syllabus);
     this.props.route.store.setItemByProperty('name', atob(this.props.params.id), syllabus);
     this.getSyllabus();    
+  }
+
+  genDownloadURI() {
+    return `data:text/plain;charset=utf-8,${encodeURIComponent(JSON.stringify(this.state.syllabus))}`
   }
 
   render() {
@@ -74,7 +79,7 @@ class Syllabus extends Component {
                 {
                   unit.resources.map(a => {
                     if (a.isTelegram) {
-                      return <li className="ion-ios-paper-outline"><Link target="_blank" to={a.url}>{a.name}</Link></li>;
+                      return <li className="ion-ios-paper-outline"><Link to={a.url}>{a.name}</Link></li>;
                     }
                     return <li className="ion-link"><a target="_blank" href={a.url}>{a.name}</a></li>;
                   })
@@ -86,7 +91,7 @@ class Syllabus extends Component {
         </ul>
         <div className="buttons fadeIn">
           <Link className="btn" to={`/syllabus/${this.props.params.id}/new`}>+ Add Unit</Link>
-          <a href="#" className="btn">Export Syllabus</a>
+          <a href={this.genDownloadURI()} className="btn" download={`${this.state.syllabus.name}.json`}>Export Course</a>
         </div>
       </div>
     );

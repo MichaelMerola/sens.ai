@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import Dropzone from 'react-dropzone';
+
 import SyllabusThumb from './SyllabusThumb';
 
 class App extends Component {
@@ -15,6 +17,8 @@ class App extends Component {
     this.renderThumbs = this.renderThumbs.bind(this);
     this.updateNewSyllabusName = this.updateNewSyllabusName.bind(this);
     this.saveNewSyllabus = this.saveNewSyllabus.bind(this);
+
+    if (window.location.search.length > 1) { this.props.route.store.reset(); }
   }
 
   componentWillMount() {
@@ -47,6 +51,24 @@ class App extends Component {
     this.renderThumbs();
   }
 
+  onDrop(acceptedFiles, rejectedFiles, self) {
+    let reader = new FileReader();
+    if (rejectedFiles.length > 0 ||
+      acceptedFiles.length == 0) {
+      
+    } else {
+      reader.readAsText(acceptedFiles[0]);
+      let content;
+      reader.onload = (e) => {
+        content = reader.result;
+        
+        let contentJSON = JSON.parse(content);
+        self.props.route.store.addItem(contentJSON);
+        this.renderThumbs();
+      }
+    }
+  }
+
   render() {
     return (
       <div className="App fadeIn">
@@ -58,6 +80,20 @@ class App extends Component {
               placeholder="What do you want to self-teach?"
               onChange={e => this.updateNewSyllabusName(e.target.value)} />
             <a className="btn" onClick={this.saveNewSyllabus}>+ Add</a>
+            <Dropzone
+              className="dropzone"
+              accept="application/json"
+              onDrop={(a, r) => {
+                this.onDrop(a, r, this);
+              }}>
+              <a
+                className="btn"
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                }}
+              >Import Course</a>
+        </Dropzone>
           </div>
         </div>
       </div>
